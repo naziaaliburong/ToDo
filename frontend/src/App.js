@@ -5,6 +5,7 @@ import {Routes, Route} from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 import Login from './Components/Login/Login';
 import Todo from './Components/Todo/Todo';
+import ProtectedRoute from './context/ProtectedRoute';
 function App() {
   
   return (
@@ -18,7 +19,9 @@ function App() {
         />
          <Route path='/dashboard' element={
             <div>
-              <Todo />
+              <ProtectedRoute />
+                <Todo />
+              <ProtectedRoute />
             </div>
         }
         />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from '../../context/AuthProvider';
 import axios from "axios";
 import './Login.css';
+import { useNavigate } from "react-router-dom";
 
 function Login(){
     const [isModalOpen, setIsModalOpen] = useState(true);
@@ -9,6 +10,7 @@ function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { login } = useAuth();
+    const navigate = useNavigate();
     
     function handleSignupClick(){
         setLoginClick(false);
@@ -29,6 +31,7 @@ function Login(){
             setIsModalOpen(false);
             alert('Login successful, now you can create listings');
             login(); // Set the user as authenticated
+            navigate('/dashboard');
             
         } catch (error) {
             if (error.response && error.response.status === 401) {

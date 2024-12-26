@@ -1,0 +1,1 @@
+This is ToDo web app. On "/" route a signup/login form appears. On successful login the user is navigated to "/dashboard" which is a protected route means only logged in users can access the "/dashboard". The "/dasboard" shows an input to add ToDo item to the list.

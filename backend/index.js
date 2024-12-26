@@ -160,7 +160,7 @@ app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {
   failureRedirect: '/'
 }), (req, res) => {
-  res.redirect('http://localhost:3000/createListing');
+  res.redirect('http://localhost:3000/dashboard');
 }
 );
 
@@ -169,7 +169,7 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'em
 app.get('/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/'
   }), (req, res) => {
-    res.redirect('http://localhost:3000/createListing');
+    res.redirect('http://localhost:3000/dashboard');
   }
 );
 //check session

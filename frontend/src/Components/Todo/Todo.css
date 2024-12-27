@@ -46,14 +46,25 @@
   .todo-item {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 10px;
+  }
+  .todo-item i{
+    margin-right: 10px;
+    cursor: pointer;
+    color: #6a5acd;
   }
   
   .todo-checkbox {
     margin-right: 10px;
+    cursor: pointer;
   }
   
   .todo-item span {
     color: #6a5acd;
   }
-  
+  .heading{
+    text-align: center;
+    padding: 10px;
+    color: #262626;
+  }

@@ -39,6 +39,7 @@ db.connect((err) => {
 });
 
 // Setup session management
+
 app.use(session({
   secret: process.env.SESSION_SECRET, // Change this for production
   resave: false,
@@ -140,7 +141,7 @@ app.post('/login', passport.authenticate('local'), (req, res) => {
   res.status(200).json({ message: 'Logged in successfully' });
 });
 
-app.post('/signup', async (req, res) => {
+app.post('/signup',  async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -149,6 +150,29 @@ app.post('/signup', async (req, res) => {
     res.status(201).json({ message: 'User created', user: result.rows[0] });
   } catch (err) {
     res.status(500).json({ error: 'User creation failed' });
+  }
+});
+app.post('/create', async (req, res) => {
+const userId = req.user.id; //this is only available when header has withCredentials set to true.
+const {listName} = req.body;
+try{
+const listData = await db.query('INSERT INTO todo_lists (list_name, user_id) VALUES ($1, $2) RETURNING *', [listName, userId]);
+//console.log(listData.rows[0].list_name); //return object and has property rows which has all rows in array and latest one is at index 0.
+res.status(200).json({message: 'Data inserted successfully'});
+} catch (err){
+console.log(err);
+}
+});
+app.get('/lists', async ( req, res) => {
+  try{
+  const userID = req.user.id;
+  const query = 'SELECT list_name FROM todo_lists WHERE user_id = $1';
+  const result = await db.query(query, [userID]);
+  const lists = result.rows.map(row => row.list_name); //because we get array of { list_name: 'hi' }
+  console.log(lists); 
+  res.status(200).json(lists);
+  } catch (err){
+    console.error('Error fetching tasks', err);
   }
 });
 

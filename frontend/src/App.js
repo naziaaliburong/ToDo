@@ -29,7 +29,9 @@ function App() {
         />
         <Route path='/edit' element={
             <div>
-              <ToDoUpdate />
+              <ProtectedRoute>
+                <ToDoUpdate />
+              </ProtectedRoute>
             </div>
         }
         />

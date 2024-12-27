@@ -27,9 +27,7 @@ function Login(){
         try {
             // Await the axios post request for login
             await axios.post('http://localhost:5000/login', { email, password }, { withCredentials: true });
-            // If the request is successful, close the modal and show a success message
-            setIsModalOpen(false);
-            alert('Login successful, now you can create listings');
+            alert('Login successful, now you can create todo list');
             login(); // Set the user as authenticated
             navigate('/dashboard');
             
@@ -47,9 +45,6 @@ function Login(){
         try {
             // Await the axios post request for signup
             await axios.post('http://localhost:5000/signup', { email, password });
-    
-            // If the request is successful, close the modal and show a success alert
-            setIsModalOpen(false);
             alert('Signup successful');  // Simple alert, no input required
         } catch (error) {
             // If there is an error, show an error alert

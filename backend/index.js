@@ -20,7 +20,7 @@ app.use(cors({
   origin: 'http://localhost:3000',  // Your React app URL
   credentials: true                 // Allow sending cookies
 }));
- // To allow cross-origin requests from the React frontend
+
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,7 +39,6 @@ db.connect((err) => {
 });
 
 // Setup session management
-
 app.use(session({
   secret: process.env.SESSION_SECRET, // Change this for production
   resave: false,

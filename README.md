@@ -6,4 +6,6 @@ When user clicks edit icon, he gets navigated to /edit route which is also a pro
 
 User can also delete list from /dasboard by clicking on delete icon.
 
-The Screenshoots of the app are in Route.docx. Everything is visually demostrated there.
+The Screenshoots of the app are in Route.docx. Everything is visually demostrated there. 
+
+Note: Deploy the backend for making the app functional, but first replace http://localhost:5000 with backend hosted URL. If you are in haste, just check screenshoots to understand the functionality. 

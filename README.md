@@ -1,4 +1,4 @@
-This is ToDo web app. On "/" route a signup/login form appears. On successful login the user is navigated to "/dashboard" which is a protected route means only logged in users can access the "/dashboard". The "/dasboard" shows an input, edit icon, and delete icon to add, edit, and delete ToDo item respectively. If you want to access "/dashboard" log in with google.
+This is ToDo web app. On "/" route a signup/login form appears. On successful login the user is navigated to "/dashboard" which is a protected route means only logged in users can access the "/dashboard". The "/dasboard" shows an input, edit icon, and delete icon to add, edit, and delete ToDo item respectively. If you want to access "/dashboard" log in first.
 
 When user click + button, he adds a list.
 

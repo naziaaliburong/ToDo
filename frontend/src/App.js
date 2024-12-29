@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {Routes, Route} from 'react-router-dom';
@@ -9,7 +9,7 @@ import Todo from './Components/Todo/Todo';
 import ToDoUpdate from './Components/ToDo Update/ToDoUpdate';
 
 function App() {
-  
+
   return (
     <AuthProvider>
       <Routes>
@@ -27,7 +27,7 @@ function App() {
             </div>
         }
         />
-        <Route path='/edit' element={
+        <Route path='/edit/:id' element={
             <div>
               <ProtectedRoute>
                 <ToDoUpdate />

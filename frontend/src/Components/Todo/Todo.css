@@ -18,6 +18,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    gap: 10px;
   }
   
   .todo-input {
@@ -49,6 +50,7 @@
     justify-content: space-between;
     margin-bottom: 10px;
   }
+
   .todo-item i{
     margin-right: 10px;
     cursor: pointer;

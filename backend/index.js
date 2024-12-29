@@ -156,9 +156,9 @@ app.post('/create', async (req, res) => {
 const userId = req.user.id; //this is only available when header has withCredentials set to true.
 const {listName} = req.body;
 try{
-const listData = await db.query('INSERT INTO todo_lists (list_name, user_id) VALUES ($1, $2) RETURNING *', [listName, userId]);
+const result = await db.query('INSERT INTO todo_lists (list_name, user_id) VALUES ($1, $2) RETURNING *', [listName, userId]);
 //console.log(listData.rows[0].list_name); //return object and has property rows which has all rows in array and latest one is at index 0.
-res.status(200).json({message: 'Data inserted successfully'});
+res.json(result.rows[0]);
 } catch (err){
 console.log(err);
 }
@@ -166,16 +166,45 @@ console.log(err);
 app.get('/lists', async ( req, res) => {
   try{
   const userID = req.user.id;
-  const query = 'SELECT list_name FROM todo_lists WHERE user_id = $1';
+  const query = 'SELECT list_name, id FROM todo_lists WHERE user_id = $1 ORDER BY id';
   const result = await db.query(query, [userID]);
-  const lists = result.rows.map(row => row.list_name); //because we get array of { list_name: 'hi' }
-  console.log(lists); 
-  res.status(200).json(lists);
+  res.status(200).json(result.rows);
   } catch (err){
     console.error('Error fetching tasks', err);
   }
 });
-
+app.put('/update/:id', async (req, res) => {
+  const {id} = req.params;
+  const {listName} = req.body;
+  try{
+    const listData = await db.query('UPDATE todo_lists SET list_name  = $1 WHERE id = $2', [listName, id]);
+    res.status(200).json({message: 'Data updated successfully'});
+    } catch (err){
+    console.log(err);
+    }
+});
+app.get('/todos/:id', async (req, res) => {
+    try{
+    const {id} = req.params;
+    const result = await db.query("SELECT list_name FROM todo_lists WHERE id = $1", [id]);
+    res.json(result.rows[0]);
+    } catch (err){
+      console.error(err.message);
+    }
+});
+app.delete('/delete/:id', async (req, res) => {
+    const {id} = req.params;
+    try{
+    const result = await db.query("DELETE FROM todo_lists WHERE id = $1", [id]);
+    if(result.rows.length > 0){
+      res.json({message:"Todo deleted"})
+    } else {
+      res.json({error: "todo not found"});
+    }
+    } catch (err){
+      console.error(err.message);
+    }
+});
 
 
 // Facebook login routes

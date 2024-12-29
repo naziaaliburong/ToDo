@@ -1,46 +1,46 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "./Todo.css"; // Create a CSS file for styling
-import { useNavigate } from "react-router-dom";
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-
-  const navigate = useNavigate();
+ 
+  const fetchLists = async () => {
+    try{
+      const response = await axios.get('http://localhost:5000/lists', {withCredentials: true});
+      setTasks (response.data);
+    } catch(err) {
+      console.log("error fetching lists");
+    }
+  };
 
   useEffect(() => {
-    const fetchLists = async () => {
-      try{
-        const response = await axios.get('http://localhost:5000/lists', {withCredentials: true});
-        console.log(response.data);
-        setTasks (response.data);
-      } catch(err) {
-        console.log("error fetching lists");
-      }
-    };
     fetchLists();
   },[]);
 
+
   async function addTask (){
-   
-    console.log(newTask);
-    const response = await axios.post('http://localhost:5000/create', {listName: newTask}, { withCredentials: true });
-    if(response.data.message){
-      alert("list added to db");
-    }
-    if (newTask.trim()) {
-      setTasks([...tasks, newTask]);
-      setNewTask("");
-    }
+    await axios.post('http://localhost:5000/create', {listName: newTask}, { withCredentials: true });
+    alert("list added to db");
+    fetchLists();
+    setNewTask(""); 
   };
 
   const handleInputChange = (e) => {
     setNewTask(e.target.value);
   };
-  function editHandler () {
-    navigate("/edit");
-  }
+
+  const handleDelete = async (id) => {
+    try{
+      await axios.delete(`http://localhost:5000/delete/${id}`);
+      alert("List deleted successfully!");
+      fetchLists();
+      } catch (err) {
+        console.error("Failed to delete list");
+      }
+  };
 
   return (
     <div>
@@ -60,15 +60,15 @@ function TodoList() {
         <button onClick={addTask} className="add-button">+</button>
       </div>
       <ul className="todo-list">
-        {tasks.map((task, index) => (
-          <li key={index} className="todo-item">
+        {tasks.map((task) => (
+          <li key={task.id}  className="todo-item">
             <div>
               <input type="checkbox" className="todo-checkbox" />
-              <span>{task}</span>
+              <span>{task.list_name}</span>
             </div>
             <div>
-              <i className="bi bi-pencil" onClick={editHandler}></i>
-              <i className="bi bi-archive"></i>
+              <Link to={`/edit/${task.id}`} ><i className="bi bi-pencil"></i></Link>
+              <i className="bi bi-archive" onClick={() => handleDelete(task.id)}></i>
             </div>
           </li>
         ))}
